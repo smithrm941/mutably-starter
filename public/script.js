@@ -10,11 +10,14 @@ $(document).ready(function(){
         + '<b>Name:</b> '+value.name+ ''
         + ' <b>Pokédex No:</b> '+value.pokedex+ ''
         + ' <b>Evolves From:</b> '+value.evolves_from+ '</li><br>')
+        $('.list-group button').addClass('edit-button');
       });
-      $('.list-group button').addClass('edit-button');
     });
   });
   $('.list-group').on('click','.edit-button', function() {
-    console.log('please clap');
+    $(this).removeClass('edit-button').addClass('save-button').html('SAVE');
+  });
+  $('.list-group').on('click','.save-button', function() {
+    $(this).removeClass('save-button').addClass('edit-button').html('EDIT');
   });
 });

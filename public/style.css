@@ -1,3 +1,18 @@
 ul{
   list-style: none;
 }
+
+img.pokemans {
+  width:400px;
+  height:400px;
+  display: block;
+  margin: 0 auto;
+}
+
+.get-pokemon{
+  text-align: center;
+}
+
+.save-button{
+  background-color: rgb(109, 204, 26);
+}
