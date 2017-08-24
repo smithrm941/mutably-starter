@@ -1,6 +1,6 @@
 $(document).ready(function(){
-  
-  //READ existing pokemon
+
+//READ existing pokemon
   const getPokemon = function(){
     $.getJSON('https://mutably.herokuapp.com/pokemon', function(data) {
       $('.list-group').empty();
@@ -23,36 +23,40 @@ $(document).ready(function(){
       });
   }
 
-  $('.get-pokemon').on('click', function() {
+  $('.get-pokemon-button').on('click', function() {
       getPokemon();
     });
 
-  $('.create-pokemon-button').on('click', function() {
-    $('.create-pokemon-form').toggle();
-  });
+//CREATE a new Pokemon
+$('.create-pokemon-button').on('click', function() {
+  $('.create-pokemon-form').toggle();
+});
 
-  //CREATE a new Pokemon
+const submitNewPokemon = function() {
+  let newPokemonName = $('.submitted-name').val();
+  let newPokedexNum = $('.submitted-pokedex-num').val();
+  let newEvolvesFrom = $('.submitted-evolves-from').val();
+  let newImageUrl = $('.submitted-image-url').val();
+  $.ajax({
+    url: 'https://mutably.herokuapp.com/pokemon',
+    method: 'POST',
+    data: "name=" + newPokemonName + '&' + "pokedex=" + newPokedexNum  + '&' + "evolves_from=" + newEvolvesFrom  + '&' + "image=" + newImageUrl,
+    success: function() {
+      $('.submitted-name').val('');
+      $('.submitted-pokedex-num').val('');
+      $('.submitted-evolves-from').val('');
+      $('.submitted-image-url').val('');
+      $('.create-pokemon-form').hide();
+    }
+  });
+}
+
   $('.create-pokemon-form').on('submit', function(event) {
     event.preventDefault();
-    let newPokemonName = $('.submitted-name').val();
-    let newPokedexNum = $('.submitted-pokedex-num').val();
-    let newEvolvesFrom = $('.submitted-evolves-from').val();
-    let newImgUrl = $('.submitted-image-url').val();
-    $.ajax({
-      url: 'https://mutably.herokuapp.com/pokemon',
-      method: 'POST',
-      data: "name=" + newPokemonName + '&' + "pokedex=" + newPokedexNum  + '&' + "evolves_from=" + newEvolvesFrom  + '&' + "image=" + newImgUrl,
-      success: function() {
-        $('.submitted-name').val('');
-        $('.submitted-pokedex-num').val('');
-        $('.submitted-evolves-from').val('');
-        $('.submitted-image-url').val('');
-        $('.create-pokemon-form').hide();
-      }
-    });
+    submitNewPokemon();
   })
 
-  //EDIT existing pokemon
+//UPDATE existing pokemon
     $('.list-group').on('click','.edit-button', function() {
       $(this).removeClass('edit-button').addClass('save-button').html('SAVE');
       $(this).siblings('.view-pokemon-info').hide();
@@ -76,7 +80,7 @@ $(document).ready(function(){
         data: "name=" + editedPokemonName + '&' + "pokedex=" + editedPokedexNum  + '&' + "evolves_from=" + editedEvolvesFrom + '&' + "image="  + editedImageUrl,
         success: function() {
           getPokemon();
-      }
-});
+        }
+      });
     });
 });
