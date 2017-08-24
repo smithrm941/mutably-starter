@@ -13,6 +13,18 @@ img.pokemans {
   text-align: center;
 }
 
+.create-pokemon-button{
+  text-align: center;
+}
+
+.create-pokemon-form{
+  display: none;
+}
+
+.edit-pokemon{
+  display: none;
+}
+
 .save-button{
   background-color: rgb(109, 204, 26);
 }
