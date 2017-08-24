@@ -5,8 +5,8 @@ $(document).ready(function(){
     $.getJSON('https://mutably.herokuapp.com/pokemon', function(data) {
       $('.list-group').empty();
       $.each(data.pokemon, function(key, value){
-        $('.list-group').append('<li> <button class="edit-button">EDIT</button>'
-        + '<button class="delete-button">DELETE</button><br>'
+        $('.list-group').append('<li> <button class="btn-info edit-button">EDIT</button>'
+        + '<button class="btn-danger delete-button">DELETE</button><br>'
         + '<img class="pokemon-image" src='+value.image+'><br>'
         + '<div class="view-pokemon-info">'
         + ' <p class="data-id"> '+value._id+'</p>'
@@ -69,14 +69,14 @@ const submitNewPokemon = function() {
 
 //UPDATE existing pokemon
     $('.list-group').on('click','.edit-button', function() {
-      $(this).removeClass('edit-button').addClass('save-button').html('SAVE');
+      $(this).removeClass('btn-info edit-button').addClass('btn-success save-button').html('SAVE');
       $(this).siblings('.delete-button').show();
       $(this).siblings('.view-pokemon-info').hide();
       $(this).siblings('.edit-pokemon').show();
     });
 
     $('.list-group').on('click','.save-button', function() {
-      $(this).removeClass('save-button').addClass('edit-button').html('EDIT');
+      $(this).removeClass('btn-success save-button').addClass('btn-info edit-button').html('EDIT');
       $(this).siblings('.edit-pokemon').hide();
       $(this).siblings('.view-pokemon-info').show();
 
