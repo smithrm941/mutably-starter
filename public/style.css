@@ -58,6 +58,20 @@ b{
 
 .edit-button{
   background-color: rgb(43, 216, 227);
+  margin-top: 10px;
+}
+
+.pokemon-image{
+  width:236px;
+  height:208px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 100px;
+}
+
+.view-pokemon-info{
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .edit-pokemon{
@@ -67,8 +81,10 @@ b{
 .delete-button{
   display: none;
   background-color: rgb(217, 36, 4);
+  margin-top: 10px;
 }
 
 .save-button{
   background-color: rgb(109, 204, 26);
+  margin-top: 10px;
 }

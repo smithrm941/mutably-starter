@@ -7,7 +7,7 @@ $(document).ready(function(){
       $.each(data.pokemon, function(key, value){
         $('.list-group').append('<li> <button class="btn-info edit-button">EDIT</button>'
         + '<button class="btn-danger delete-button">DELETE</button><br>'
-        + '<img class="pokemon-image" src='+value.image+'><br>'
+        + '<img class="pokemon-image" src='+value.image+'>'
         + '<div class="view-pokemon-info">'
         + ' <p class="data-id"> '+value._id+'</p>'
         + ' <b>Name:</b> <p class="pokemon-name">'+value.name+ '</p>'
@@ -89,6 +89,7 @@ const submitNewPokemon = function() {
       let editedImageUrl = $(this).siblings('.edit-pokemon').children('.image-url-edit').val()
 
       let confirmEdits = confirm('Save these changes?')
+      
       if(confirmEdits){
         $.ajax({
           url: editedPokemonUrlNoSpaces,
