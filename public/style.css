@@ -25,8 +25,16 @@ img.pokemans {
   display: none;
 }
 
+.edit-button{
+  background-color: rgb(43, 216, 227);
+}
+
 .edit-pokemon{
   display: none;
+}
+
+.delete-button{
+  background-color: rgb(217, 36, 4);
 }
 
 .save-button{

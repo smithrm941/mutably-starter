@@ -5,7 +5,8 @@ $(document).ready(function(){
     $.getJSON('https://mutably.herokuapp.com/pokemon', function(data) {
       $('.list-group').empty();
       $.each(data.pokemon, function(key, value){
-        $('.list-group').append('<li> <button class="edit-button">EDIT</button><br>'
+        $('.list-group').append('<li> <button class="edit-button">EDIT</button>'
+        + '<span><button class="delete-button">DELETE</button></span><br>'
         + '<img class="pokemon-image" src='+value.image+'><br>'
         + '<div class="view-pokemon-info">'
         + ' <p class="data-id"> '+value._id+'</p>'
