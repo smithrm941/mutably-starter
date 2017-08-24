@@ -55,6 +55,7 @@ const submitNewPokemon = function() {
   $('.create-pokemon-form').on('submit', function(event) {
     event.preventDefault();
     submitNewPokemon();
+    getPokemon();
   })
 
 //UPDATE existing pokemon
