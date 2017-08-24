@@ -21,6 +21,10 @@ img.pokemans {
   display: none;
 }
 
+.data-id{
+  display: none;
+}
+
 .edit-pokemon{
   display: none;
 }
