@@ -38,10 +38,14 @@ const submitNewPokemon = function() {
   let newPokedexNum = $('.submitted-pokedex-num').val();
   let newEvolvesFrom = $('.submitted-evolves-from').val();
   let newImageUrl = $('.submitted-image-url').val();
+  
   $.ajax({
     url: 'https://mutably.herokuapp.com/pokemon',
     method: 'POST',
     data: "name=" + newPokemonName + '&' + "pokedex=" + newPokedexNum  + '&' + "evolves_from=" + newEvolvesFrom  + '&' + "image=" + newImageUrl,
+    beforeSend: function(){
+      alert(`Adding ${newPokemonName}`)
+    },
     success: function() {
       $('.submitted-name').val('');
       $('.submitted-pokedex-num').val('');
@@ -54,13 +58,19 @@ const submitNewPokemon = function() {
 
   $('.create-pokemon-form').on('submit', function(event) {
     event.preventDefault();
-    submitNewPokemon();
+    let newPokemonName = $('.submitted-name').val();
+    let confirmSubmission = confirm(`Are you sure you want to add ${newPokemonName}?`)
+
+    if(confirmSubmission){
+      submitNewPokemon();
+    }
     getPokemon();
   })
 
 //UPDATE existing pokemon
     $('.list-group').on('click','.edit-button', function() {
       $(this).removeClass('edit-button').addClass('save-button').html('SAVE');
+      $(this).siblings('.delete-button').show();
       $(this).siblings('.view-pokemon-info').hide();
       $(this).siblings('.edit-pokemon').show();
     });
@@ -69,6 +79,7 @@ const submitNewPokemon = function() {
       $(this).removeClass('save-button').addClass('edit-button').html('EDIT');
       $(this).siblings('.edit-pokemon').hide();
       $(this).siblings('.view-pokemon-info').show();
+
       let editedPokemonId = $(this).siblings('.view-pokemon-info').children('.data-id').html()
       let editedPokemonUrl = 'https://mutably.herokuapp.com/pokemon/' + editedPokemonId
       let editedPokemonUrlNoSpaces = editedPokemonUrl.replace(/\s+/g, '');
@@ -76,28 +87,39 @@ const submitNewPokemon = function() {
       let editedPokedexNum = $(this).siblings('.edit-pokemon').children('.pokedex-number-edit').val();
       let editedEvolvesFrom = $(this).siblings('.edit-pokemon').children('.evolves-from-edit').val();
       let editedImageUrl = $(this).siblings('.edit-pokemon').children('.image-url-edit').val()
-      $.ajax({
-        url: editedPokemonUrlNoSpaces,
-        method: 'PUT',
-        data: "name=" + editedPokemonName + '&' + "pokedex=" + editedPokedexNum  + '&' + "evolves_from=" + editedEvolvesFrom + '&' + "image="  + editedImageUrl,
-        success: function() {
-          getPokemon();
-        }
-      });
+
+      let confirmEdits = confirm('Save these changes?')
+      if(confirmEdits){
+        $.ajax({
+          url: editedPokemonUrlNoSpaces,
+          method: 'PUT',
+          data: "name=" + editedPokemonName + '&' + "pokedex=" + editedPokedexNum  + '&' + "evolves_from=" + editedEvolvesFrom + '&' + "image="  + editedImageUrl,
+          success: function() {
+            getPokemon();
+          }
+        });
+      }
     });
 
 //DELETE existing pokemon
   $('.list-group').on('click', '.delete-button', function() {
-    console.log($(this).nextAll())
-    let deletedPokemonId = $(this).siblings('.view-pokemon-info').children('.data-id').html()
-    let deletedPokemonUrl = 'https://mutably.herokuapp.com/pokemon/' + deletedPokemonId
-    let deletedPokemonUrlNoSpaces = deletedPokemonUrl.replace(/\s+/g, '');
-    $.ajax({
-      url: deletedPokemonUrlNoSpaces,
-      method: 'DELETE',
-      success: function() {
-        getPokemon();
-      }
-    });
+    let deletedPokemon = $(this).siblings('.view-pokemon-info').children('.pokemon-name').html()
+    let deleteConfirmation = confirm(`Are you sure you want to delete ${deletedPokemon}?`)
+
+    if(deleteConfirmation){
+      let deletedPokemonId = $(this).siblings('.view-pokemon-info').children('.data-id').html()
+      let deletedPokemonUrl = 'https://mutably.herokuapp.com/pokemon/' + deletedPokemonId
+      let deletedPokemonUrlNoSpaces = deletedPokemonUrl.replace(/\s+/g, '');
+      $.ajax({
+        url: deletedPokemonUrlNoSpaces,
+        method: 'DELETE',
+        beforeSend: function(){
+          alert(`Deleting ${deletedPokemon}`)
+        },
+        success: function() {
+          getPokemon();
+        }
+      });
+    }
   });
 });

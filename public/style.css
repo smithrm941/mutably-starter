@@ -34,6 +34,7 @@ img.pokemans {
 }
 
 .delete-button{
+  display: none;
   background-color: rgb(217, 36, 4);
 }
 
