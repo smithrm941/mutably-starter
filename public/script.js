@@ -15,10 +15,10 @@ $(document).ready(function(){
         + ' <b>Evolves From:</b> <p class="evolves-from">'+value.evolves_from+ '</p><br>'
         + '</div>'
         + '<form class="edit-pokemon">'
-        + ' <b>Name:</b> <input class="name-edit" type="text" value= '+value.name+' </input>'
-        + ' <b>Pokédex No:</b> <input class="pokedex-number-edit" type="text" value= '+value.pokedex+' </input>'
-        + ' <b>Evolves From:</b> <input class="evolves-from-edit" type="text" value= '+value.evolves_from+' </input>'
-        + ' <b>Image URL:</b> <input class="image-url-edit" type="text" value= '+value.image+' </input>'
+        + ' <b>Name:</b> <input class="form-control name-edit" type="text" value= '+value.name+' </input>'
+        + ' <b>Pokédex No:</b> <input class="form-control pokedex-number-edit" type="text" value= '+value.pokedex+' </input>'
+        + ' <b>Evolves From:</b> <input class="form-control evolves-from-edit" type="text" value= '+value.evolves_from+' </input>'
+        + ' <b>Image URL:</b> <input class="form-control image-url-edit" type="text" value= '+value.image+' </input>'
         + '</form></li>')
         });
       });
