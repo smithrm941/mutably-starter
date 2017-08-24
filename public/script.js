@@ -38,7 +38,7 @@ const submitNewPokemon = function() {
   let newPokedexNum = $('.submitted-pokedex-num').val();
   let newEvolvesFrom = $('.submitted-evolves-from').val();
   let newImageUrl = $('.submitted-image-url').val();
-  
+
   $.ajax({
     url: 'https://mutably.herokuapp.com/pokemon',
     method: 'POST',
@@ -99,6 +99,7 @@ const submitNewPokemon = function() {
           }
         });
       }
+      getPokemon();
     });
 
 //DELETE existing pokemon
