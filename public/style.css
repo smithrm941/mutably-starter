@@ -6,7 +6,8 @@ img.pokemans {
   width:400px;
   height:320px;
   display: block;
-  margin: 0 auto;
+  /*margin: 0 auto;*/
+  margin-left: 70px;
 }
 
 .container{
@@ -49,14 +50,16 @@ b{
   margin-bottom: 2px;
 }
 
-.btn.get-pokemon-button{
+.get-pokemon-button{
   text-align: center;
   border-radius: 6px;
+  width: 560px;
 }
 
 .create-pokemon-button{
   text-align: center;
   border-radius: 6px;
+  width: 560px;
 }
 
 .create-pokemon-form{
@@ -70,13 +73,16 @@ b{
 .edit-button{
   background-color: rgb(43, 216, 227);
   margin-top: 10px;
+  margin-right: 100px;
 }
 
 .pokemon-image{
   width:236px;
   height:208px;
   display: inline-block;
+  text-align: center;
   vertical-align: middle;
+  margin-left: 100px;
   margin-right: 100px;
 }
 

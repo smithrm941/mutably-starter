@@ -6,7 +6,7 @@ $(document).ready(function(){
     $.getJSON('https://mutably.herokuapp.com/pokemon', function(data) {
       $('.list-group').empty();
       $.each(data.pokemon, function(key, value){
-        $('.list-group').append('<li><button class="btn-info edit-button">EDIT</button>'
+        $('.list-group').append('<li><button class="btn-primary edit-button">EDIT</button>'
         + '<button class="btn-danger delete-button">DELETE</button>'
         + '<button class="btn-info cancel-button">CANCEL</button><br>'
         + '<img class="pokemon-image" src='+value.image+'>'
@@ -88,7 +88,7 @@ $(document).ready(function(){
   //UPDATE existing pokemon
 
   $('.list-group').on('click','.edit-button', function() {
-    $(this).removeClass('btn-info edit-button').addClass('btn-success save-button').html('SAVE');
+    $(this).removeClass('btn-primary edit-button').addClass('btn-success save-button').html('SAVE');
     $(this).siblings('.delete-button').show();
     $(this).siblings('.cancel-button').show();
     $(this).siblings('.view-pokemon-info').hide();
