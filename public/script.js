@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
-//READ existing pokemon
+  //READ existing pokemon
+
   const getPokemon = function(){
     $.getJSON('https://mutably.herokuapp.com/pokemon', function(data) {
       $('.list-group').empty();
@@ -29,129 +30,146 @@ $(document).ready(function(){
       getPokemon();
     });
 
-//CREATE a new Pokemon
-$('.create-pokemon-button').on('click', function() {
-  $('.create-pokemon-form').toggle();
-});
+  //CREATE a new Pokemon
 
-const getNewPokemonFromForm = function() {
-  let newPokemonName = $('.submitted-name').val();
-  let newPokedexNum = $('.submitted-pokedex-num').val();
-  let newEvolvesFrom = $('.submitted-evolves-from').val();
-  let newImageUrl = $('.submitted-image-url').val();
-  return {
-    'newPokemonName': newPokemonName,
-    'newPokedexNum': newPokedexNum,
-    'newEvolvesFrom': newEvolvesFrom,
-    'newImageUrl': newImageUrl
-  }
-}
-
-const clearNewPokemonForm = function() {
-  $('.submitted-name').val('');
-  $('.submitted-pokedex-num').val('');
-  $('.submitted-evolves-from').val('');
-  $('.submitted-image-url').val('');
-  $('.create-pokemon-form').hide();
-}
-
-const createNewPokemon = function(pokemon) {
-  $.ajax({
-    url: 'https://mutably.herokuapp.com/pokemon',
-    method: 'POST',
-    data: "name=" + pokemon.newPokemonName + '&' + "pokedex=" + pokemon.newPokedexNum  + '&' + "evolves_from=" + pokemon.newEvolvesFrom  + '&' + "image=" + pokemon.newImageUrl,
-    beforeSend: function(){
-      alert(`Adding ${pokemon.newPokemonName}`)
-    },
-    success: function() {
-      clearNewPokemonForm();
-      getPokemon()
-    }
+  $('.create-pokemon-button').on('click', function() {
+    $('.create-pokemon-form').toggle();
   });
-}
 
-$('.create-pokemon-form').on('submit', function(event) {
-  event.preventDefault();
-  let pokemon = getNewPokemonFromForm();
-  let confirmSubmission = confirm(`Are you sure you want to add ${pokemon.newPokemonName}?`)
-  if(confirmSubmission){
-    createNewPokemon(pokemon);
+  const getNewPokemonFromForm = function() {
+    let newPokemonName = $('.submitted-name').val();
+    let newPokedexNum = $('.submitted-pokedex-num').val();
+    let newEvolvesFrom = $('.submitted-evolves-from').val();
+    let newImageUrl = $('.submitted-image-url').val();
+    return {
+      'newPokemonName': newPokemonName,
+      'newPokedexNum': newPokedexNum,
+      'newEvolvesFrom': newEvolvesFrom,
+      'newImageUrl': newImageUrl
+    }
   }
-  getPokemon();
-})
 
-//UPDATE existing pokemon
-$('.list-group').on('click','.edit-button', function() {
-  $(this).removeClass('btn-info edit-button').addClass('btn-success save-button').html('SAVE');
-  $(this).siblings('.delete-button').show();
-  $(this).siblings('.cancel-button').show();
-  $(this).siblings('.view-pokemon-info').hide();
-  $(this).siblings('.edit-pokemon-form').show();
-});
-
-const getUpdatesFromForm = function(_this) {
-  let editedPokemonId = $(_this).siblings('.view-pokemon-info').children('.data-id').html()
-  let editedPokemonUrl = 'https://mutably.herokuapp.com/pokemon/' + editedPokemonId
-  let editedPokemonUrlNoSpaces = editedPokemonUrl.replace(/\s+/g, '');
-  let editedPokemonName = $(_this).siblings('.edit-pokemon-form').children('.name-edit').val();
-  let editedPokedexNum = $(_this).siblings('.edit-pokemon-form').children('.pokedex-number-edit').val();
-  let editedEvolvesFrom = $(_this).siblings('.edit-pokemon-form').children('.evolves-from-edit').val();
-  let editedImageUrl = $(_this).siblings('.edit-pokemon-form').children('.image-url-edit').val()
-  return {
-    'pokemonId': editedPokemonId,
-    'pokemonUrl': editedPokemonUrlNoSpaces,
-    'pokemonName': editedPokemonName,
-    'pokedexNum': editedPokedexNum,
-    'evolvesFrom': editedEvolvesFrom,
-    'imageUrl': editedImageUrl
+  const clearNewPokemonForm = function() {
+    $('.submitted-name').val('');
+    $('.submitted-pokedex-num').val('');
+    $('.submitted-evolves-from').val('');
+    $('.submitted-image-url').val('');
+    $('.create-pokemon-form').hide();
   }
-}
 
-const updatePokemonData = function(pokemon) {
-  $.ajax({
-    url: pokemon.pokemonUrl,
-    method: 'PUT',
-    data: "name=" + pokemon.pokemonName + '&' + "pokedex=" + pokemon.pokedexNum  + '&' + "evolves_from=" + pokemon.evolvesFrom + '&' + "image="  + pokemon.imageUrl,
-    success: function() {
+  const createNewPokemon = function(pokemon) {
+    $.ajax({
+      url: 'https://mutably.herokuapp.com/pokemon',
+      method: 'POST',
+      data: "name=" + pokemon.newPokemonName + '&' + "pokedex=" + pokemon.newPokedexNum  + '&' + "evolves_from=" + pokemon.newEvolvesFrom  + '&' + "image=" + pokemon.newImageUrl,
+      beforeSend: function(){
+        alert(`Adding ${pokemon.newPokemonName}`)
+      },
+      success: function() {
+        clearNewPokemonForm();
+        getPokemon()
+      }
+    });
+  }
+
+  $('.create-pokemon-form').on('submit', function(event) {
+    event.preventDefault();
+    let pokemon = getNewPokemonFromForm();
+    let confirmSubmission = confirm(`Are you sure you want to add ${pokemon.newPokemonName}?`)
+    if(confirmSubmission){
+      createNewPokemon(pokemon);
+    }
+    getPokemon();
+  })
+
+  //UPDATE existing pokemon
+
+  $('.list-group').on('click','.edit-button', function() {
+    $(this).removeClass('btn-info edit-button').addClass('btn-success save-button').html('SAVE');
+    $(this).siblings('.delete-button').show();
+    $(this).siblings('.cancel-button').show();
+    $(this).siblings('.view-pokemon-info').hide();
+    $(this).siblings('.edit-pokemon-form').show();
+  });
+
+  const getUpdatesFromForm = function(_this) {
+    let editedPokemonId = $(_this).siblings('.view-pokemon-info').children('.data-id').html()
+    let editedPokemonUrl = 'https://mutably.herokuapp.com/pokemon/' + editedPokemonId
+    let editedPokemonUrlNoSpaces = editedPokemonUrl.replace(/\s+/g, '');
+    let editedPokemonName = $(_this).siblings('.edit-pokemon-form').children('.name-edit').val();
+    let editedPokedexNum = $(_this).siblings('.edit-pokemon-form').children('.pokedex-number-edit').val();
+    let editedEvolvesFrom = $(_this).siblings('.edit-pokemon-form').children('.evolves-from-edit').val();
+    let editedImageUrl = $(_this).siblings('.edit-pokemon-form').children('.image-url-edit').val()
+    return {
+      'pokemonId': editedPokemonId,
+      'pokemonUrl': editedPokemonUrlNoSpaces,
+      'pokemonName': editedPokemonName,
+      'pokedexNum': editedPokedexNum,
+      'evolvesFrom': editedEvolvesFrom,
+      'imageUrl': editedImageUrl
+    }
+  }
+
+  const updatePokemonData = function(pokemon) {
+    $.ajax({
+      url: pokemon.pokemonUrl,
+      method: 'PUT',
+      data: "name=" + pokemon.pokemonName + '&' + "pokedex=" + pokemon.pokedexNum  + '&' + "evolves_from=" + pokemon.evolvesFrom + '&' + "image="  + pokemon.imageUrl,
+      success: function() {
+        getPokemon();
+      }
+    });
+  }
+
+  $('.list-group').on('click','.save-button', function() {
+    let confirmEdits = confirm('Save these changes?')
+
+    if(confirmEdits){
+      let pokemon = getUpdatesFromForm(this);
+      updatePokemonData(pokemon)
+    }
       getPokemon();
-    }
   });
-}
 
-$('.list-group').on('click','.save-button', function() {
-  let confirmEdits = confirm('Save these changes?')
+  //DELETE existing pokemon
 
-  if(confirmEdits){
-    let pokemon = getUpdatesFromForm(this);
-    updatePokemonData(pokemon)
+  const pokemonDataToDelete = function(_this){
+    let deletedPokemon = $(_this).siblings('.view-pokemon-info').children('.pokemon-name').html()
+    let deletedPokemonId = $(_this).siblings('.view-pokemon-info').children('.data-id').html()
+    let deletedPokemonUrl = 'https://mutably.herokuapp.com/pokemon/' + deletedPokemonId
+    let deletedPokemonUrlNoSpaces = deletedPokemonUrl.replace(/\s+/g, '');
+    return {
+      'deletedName': deletedPokemon,
+      'deletedId': deletedPokemonId,
+      'deletedUrl': deletedPokemonUrlNoSpaces,
+    }
   }
-    getPokemon();
-});
 
-//DELETE existing pokemon
+  const deletePokemon = function(pokemon){
+    $.ajax({
+      url: pokemon.deletedUrl,
+      method: 'DELETE',
+      beforeSend: function(){
+        alert(`Deleting ${pokemon.deletedName}`)
+      },
+      success: function() {
+        getPokemon();
+      }
+    });
+  }
+
   $('.list-group').on('click', '.delete-button', function() {
-    let deletedPokemon = $(this).siblings('.view-pokemon-info').children('.pokemon-name').html()
-    let deleteConfirmation = confirm(`Are you sure you want to delete ${deletedPokemon}?`)
+    let pokemon = pokemonDataToDelete(this);
+    let deleteConfirmation = confirm(`Are you sure you want to delete ${pokemon.deletedName}?`)
 
-    if(deleteConfirmation){
-      let deletedPokemonId = $(this).siblings('.view-pokemon-info').children('.data-id').html()
-      let deletedPokemonUrl = 'https://mutably.herokuapp.com/pokemon/' + deletedPokemonId
-      let deletedPokemonUrlNoSpaces = deletedPokemonUrl.replace(/\s+/g, '');
-      $.ajax({
-        url: deletedPokemonUrlNoSpaces,
-        method: 'DELETE',
-        beforeSend: function(){
-          alert(`Deleting ${deletedPokemon}`)
-        },
-        success: function() {
-          getPokemon();
-        }
-      });
-    }
-  });
+      if(deleteConfirmation){
+        deletePokemon(pokemon)
+      }
+      getPokemon();
+    });
 
-  //Go back to list of pokemon with no changes or deletion:
-  $('.list-group').on('click', '.cancel-button', function() {
-    getPokemon();
-  });
+    //Go back to list of pokemon with no changes or deletion:
+    $('.list-group').on('click', '.cancel-button', function() {
+      getPokemon();
+    });
 });
