@@ -19,6 +19,7 @@ $(document).ready(function(){
   }
 
   const displayPokemon = function(fetchedPokemon){
+    $('.list-group').empty()
     $.each(fetchedPokemon, function(key, value){
       $('.list-group').append('<li><button class="btn-primary edit-button">EDIT</button>'
       + '<button class="btn-danger delete-button">DELETE</button>'
