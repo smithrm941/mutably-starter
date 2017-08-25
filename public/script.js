@@ -118,7 +118,6 @@ $(document).ready(function(){
     let editedEvolvesFrom = $(_this).siblings('.edit-pokemon-form').children('.evolves-from-edit').val();
     let editedImageUrl = $(_this).siblings('.edit-pokemon-form').children('.image-url-edit').val()
     return {
-      'pokemonId': editedPokemonId,
       'pokemonUrl': editedPokemonUrlNoSpaces,
       'pokemonName': editedPokemonName,
       'pokedexNum': editedPokedexNum,
@@ -160,7 +159,6 @@ $(document).ready(function(){
     let deletedPokemonUrlNoSpaces = deletedPokemonUrl.replace(/\s+/g, '');
     return {
       'deletedName': deletedPokemon,
-      'deletedId': deletedPokemonId,
       'deletedUrl': deletedPokemonUrlNoSpaces,
     }
   }
