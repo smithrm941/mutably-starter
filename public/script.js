@@ -61,7 +61,10 @@ $(document).ready(function(){
     $.ajax({
       url: 'https://mutably.herokuapp.com/pokemon',
       method: 'POST',
-      data: "name=" + pokemon.newPokemonName + '&' + "pokedex=" + pokemon.newPokedexNum  + '&' + "evolves_from=" + pokemon.newEvolvesFrom  + '&' + "image=" + pokemon.newImageUrl,
+      data: "name=" + pokemon.newPokemonName
+      + '&' + "pokedex=" + pokemon.newPokedexNum
+      + '&' + "evolves_from=" + pokemon.newEvolvesFrom
+      + '&' + "image=" + pokemon.newImageUrl,
       beforeSend: function(){
         alert(`Adding ${pokemon.newPokemonName}`)
       },
@@ -114,7 +117,10 @@ $(document).ready(function(){
     $.ajax({
       url: pokemon.pokemonUrl,
       method: 'PUT',
-      data: "name=" + pokemon.pokemonName + '&' + "pokedex=" + pokemon.pokedexNum  + '&' + "evolves_from=" + pokemon.evolvesFrom + '&' + "image="  + pokemon.imageUrl,
+      data: "name=" + pokemon.pokemonName
+      + '&' + "pokedex=" + pokemon.pokedexNum
+      + '&' + "evolves_from=" + pokemon.evolvesFrom
+      + '&' + "image="  + pokemon.imageUrl,
       success: function() {
         getPokemon();
       }
