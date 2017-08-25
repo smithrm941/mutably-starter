@@ -2,32 +2,45 @@ $(document).ready(function(){
 
   //READ existing pokemon
 
-  const getPokemon = function(){
+  const fetchPokemon = function(){
+    let pokedex = []
     $.getJSON('https://mutably.herokuapp.com/pokemon', function(data) {
-      $('.list-group').empty();
       $.each(data.pokemon, function(key, value){
-        $('.list-group').append('<li><button class="btn-primary edit-button">EDIT</button>'
-        + '<button class="btn-danger delete-button">DELETE</button>'
-        + '<button class="btn-info cancel-button">CANCEL</button><br>'
-        + '<img class="pokemon-image" src='+value.image+'>'
-        + '<div class="view-pokemon-info">'
-        + ' <p class="data-id"> '+value._id+'</p>'
-        + ' <b>Name:</b> <p class="pokemon-name">'+value.name+ '</p>'
-        + ' <b>Pokédex No:</b> <p class="pokedex-number">'+value.pokedex+ '</p>'
-        + ' <b>Evolves From:</b> <p class="evolves-from">'+value.evolves_from+ '</p><br>'
-        + '</div>'
-        + '<form class="edit-pokemon-form">'
-        + ' <b>Name:</b> <input class="form-control name-edit" type="text" value= '+value.name+' </input>'
-        + ' <b>Pokédex No:</b> <input class="form-control pokedex-number-edit" type="text" value= '+value.pokedex+' </input>'
-        + ' <b>Evolves From:</b> <input class="form-control evolves-from-edit" type="text" value= '+value.evolves_from+' </input>'
-        + ' <b>Image URL:</b> <input class="form-control image-url-edit" type="text" value= '+value.image+' </input>'
-        + '</form></li>')
-        });
-      });
+        let pokemon = {}
+        pokemon.id = value._id;
+        pokemon.name = value.name;
+        pokemon.pokedexNumber = value.pokedex;
+        pokemon.evolves_from = value.evolves_from;
+        pokemon.image = value.image;
+        pokedex.push(pokemon)
+      })
+      displayPokemon(pokedex)
+    })
+  }
+
+  const displayPokemon = function(fetchedPokemon){
+    $.each(fetchedPokemon, function(key, value){
+      $('.list-group').append('<li><button class="btn-primary edit-button">EDIT</button>'
+      + '<button class="btn-danger delete-button">DELETE</button>'
+      + '<button class="btn-info cancel-button">CANCEL</button><br>'
+      + '<img class="pokemon-image" src='+value.image+'>'
+      + '<div class="view-pokemon-info">'
+      + ' <p class="data-id"> '+value.id+'</p>'
+      + ' <b>Name:</b> <p class="pokemon-name">'+value.name+ '</p>'
+      + ' <b>Pokédex No:</b> <p class="pokedex-number">'+value.pokedexNumber+ '</p>'
+      + ' <b>Evolves From:</b> <p class="evolves-from">'+value.evolves_from+'</p><br>'
+      + '</div>'
+      + '<form class="edit-pokemon-form">'
+      + ' <b>Name:</b> <input class="form-control name-edit" type="text" value= '+value.name+' </input>'
+      + ' <b>Pokédex No:</b> <input class="form-control pokedex-number-edit" type="text" value= '+value.pokedexNumber+' </input>'
+      + ' <b>Evolves From:</b> <input class="form-control evolves-from-edit" type="text" value= '+value.evolves_from+' </input>'
+      + ' <b>Image URL:</b> <input class="form-control image-url-edit" type="text" value= '+value.image+' </input>'
+      + '</form></li>')
+    });
   }
 
   $('.get-pokemon-button').on('click', function() {
-      getPokemon();
+      fetchPokemon();
     });
 
   //CREATE a new Pokemon
@@ -70,7 +83,7 @@ $(document).ready(function(){
       },
       success: function() {
         clearNewPokemonForm();
-        getPokemon()
+        fetchPokemon()
       }
     });
   }
@@ -82,7 +95,7 @@ $(document).ready(function(){
     if(confirmSubmission){
       createNewPokemon(pokemon);
     }
-    getPokemon();
+    fetchPokemon();
   })
 
   //UPDATE existing pokemon
@@ -122,7 +135,7 @@ $(document).ready(function(){
       + '&' + "evolves_from=" + pokemon.evolvesFrom
       + '&' + "image="  + pokemon.imageUrl,
       success: function() {
-        getPokemon();
+        fetchPokemon();
       }
     });
   }
@@ -134,7 +147,7 @@ $(document).ready(function(){
       let pokemon = getUpdatesFromForm(this);
       updatePokemonData(pokemon)
     }
-      getPokemon();
+      fetchPokemon();
   });
 
   //DELETE existing pokemon
@@ -159,7 +172,7 @@ $(document).ready(function(){
         alert(`Deleting ${pokemon.deletedName}`)
       },
       success: function() {
-        getPokemon();
+        fetchPokemon();
       }
     });
   }
@@ -171,11 +184,11 @@ $(document).ready(function(){
       if(deleteConfirmation){
         deletePokemon(pokemon)
       }
-      getPokemon();
+      fetchPokemon();
     });
 
     //Go back to list of pokemon with no changes or deletion:
     $('.list-group').on('click', '.cancel-button', function() {
-      getPokemon();
+      fetchPokemon();
     });
 });
