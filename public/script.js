@@ -1,5 +1,4 @@
 $(document).ready(function(){
-
   //READ existing pokemon
 
   const fetchPokemon = function(){
