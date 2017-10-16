@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Mutably front-end</title>
+    <title>My Pokemanz</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/style.css">
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
@@ -20,18 +20,18 @@
           <button class="btn-primary btn-block get-pokemon-button">Let Me Show You Them</button>
         </div>
         <div>
-          <button class="btn-primary btn-block create-pokemon-button">Give Me a Pokémon Instead</button>
+          <button class="btn-primary btn-block display-create-form-button">Give Me a Pokémon Instead</button>
         </div>
         <form class="create-pokemon-form">
-          <b>Name:</b> <input class="form-control submitted-name" type="text"/>
+          <b>Name:</b> <input class="form-control submitted-name" type="text" id="new-pokemon-name"/>
           <br>
-          <b>Pokedex Number:</b> <input class="form-control submitted-pokedex-num" type="text"/>
+          <b>Pokedex Number:</b> <input class="form-control submitted-pokedex-num" type="text" id="new-pokemon-number"/>
           <br>
-          <b>Evolves From:</b> <input class="form-control submitted-evolves-from" type="text"/>
+          <b>Evolves From:</b> <input class="form-control submitted-evolves-from" type="text" id="new-pokemon-evolves-from"/>
           <br>
-          <b>Image URL:</b> <input class="form-control submitted-image-url" type="text"/>
+          <b>Image URL:</b> <input class="form-control submitted-image-url" type="text" id="new-pokemon-image"/>
           <br>
-          <button class="submit-button" type="submit">SUBMIT</button>
+          <button class="submit-button create-pokemon-button" type="submit">SUBMIT</button>
         </form>
       </nav>
       <div class="panel panel-default">

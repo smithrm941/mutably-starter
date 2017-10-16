@@ -20,7 +20,15 @@ $(document).ready(function(){
       })
     },
     createPokemon: () => {
-      console.log('placeholder')
+      return fetch('https://mutably.herokuapp.com/pokemon', {
+	      method: 'post',
+	      body: JSON.stringify({
+		      name: document.getElementById('new-pokemon-name').value,
+		      pokedex: document.getElementById('new-pokemon-number').value,
+          evolves_from: document.getElementById('new-pokemon-evolves-from').value,
+          image: document.getElementById('new-pokemon-image').value
+	      })
+      });
     },
     updatePokemon: () => {
       console.log('placeholder')
@@ -32,7 +40,6 @@ $(document).ready(function(){
 
   const UI = {
     appendPokemonToHtml: (fetchedPokemon) => {
-      console.log('hmmmmmmm', fetchedPokemon)
       $('.list-group').empty()
       $.each(fetchedPokemon, function(key, value){
         $('.list-group').append('<li><button class="btn-primary edit-button">EDIT</button>'
@@ -52,20 +59,38 @@ $(document).ready(function(){
         + ' <b>Image URL:</b> <input class="form-control image-url-edit" type="text" value= '+value.image+' </input>'
         + '</form></li>')
       });
+    },
+    toggleCreateForm: () => {
+      $('.create-pokemon-form').toggle()
     }
+
   }
 
   const CONTROLLER = {
     displayPokemon: () => {
-      DATA.getPokemonData().then((pokedex) => { //Cannot read property 'then' of undefined
+      DATA.getPokemonData().then((pokedex) => {
       UI.appendPokemonToHtml(pokedex)
       })
+    },
+    toggleCreateForm: () => {
+      UI.toggleCreateForm()
+    },
+    createPokemon: () => {
+      DATA.createPokemon()
     }
   }
 
   $('.get-pokemon-button').on('click', function() {
-      CONTROLLER.displayPokemon();
+    CONTROLLER.displayPokemon();
   });
+
+  $('.display-create-form-button').on('click', function() {
+    CONTROLLER.toggleCreateForm()
+  })
+
+  $('.create-pokemon-button').on('click', function() {
+    CONTROLLER.createPokemon()
+  })
 
 
 });
