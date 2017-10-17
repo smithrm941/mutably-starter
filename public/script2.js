@@ -34,11 +34,30 @@ $(document).ready(function(){
         body: `name=${newPokemonName}&pokedex=${newPokedexNum}&evolves_from=${newEvolvesFrom}&image=${newImageUrl}`
       });
     },
-    updatePokemon: () => {
-      console.log('placeholder')
+    editPokemon: () => {
+      let editPokemonForm = $(event.target).siblings('.edit-pokemon-form')
+      let hiddenPokemonId = $(editPokemonForm.children()[0]).html()
+      let editFormName = $(editPokemonForm.children()[2]).val()
+      let editFormPokedexNum = $(editPokemonForm.children()[4]).val()
+      let editFormEvolvesFrom = $(editPokemonForm.children()[6]).val()
+      let editFormImageUrl = $(editPokemonForm.children()[8]).val()
+      return DATA.updatePokemon(hiddenPokemonId, editFormName, editFormPokedexNum, editFormEvolvesFrom, editFormImageUrl)
+    },
+    updatePokemon: ( hiddenPokemonId, editFormName, editFormPokedexNum, editFormEvolvesFrom, editFormImageUrl ) => {
+      let individualPokemonEndpoint = (`https://mutably.herokuapp.com/pokemon/${hiddenPokemonId}`).replace(/\s/g, '');
+      return fetch(individualPokemonEndpoint, {
+        method: 'put',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: `name=${editFormName}&pokedex=${editFormPokedexNum}&evolves_from=${editFormEvolvesFrom}&image=${editFormImageUrl}`
+      })
     },
     deletePokemon: () => {
-      console.log('placeholder')
+      let pokemonInfo = $(event.target).siblings('.view-pokemon-info')
+      let hiddenPokemonId = $(pokemonInfo.children()[0]).html()
+      let individualPokemonEndpoint = (`https://mutably.herokuapp.com/pokemon/${hiddenPokemonId}`).replace(/\s/g, '');
+      return fetch(individualPokemonEndpoint, {
+        method: 'delete',
+      })
     }
   }
 
@@ -57,6 +76,7 @@ $(document).ready(function(){
         + ' <b>Evolves From:</b> <p class="evolves-from">'+value.evolves_from+'</p><br>'
         + '</div>'
         + '<form class="edit-pokemon-form">'
+        + ' <p class="data-id"> '+value.id+'</p>'
         + ' <b>Name:</b> <input class="form-control name-edit" type="text" value= '+value.name+' </input>'
         + ' <b>Pokédex No:</b> <input class="form-control pokedex-number-edit" type="text" value= '+value.pokedexNumber+' </input>'
         + ' <b>Evolves From:</b> <input class="form-control evolves-from-edit" type="text" value= '+value.evolves_from+' </input>'
@@ -68,11 +88,11 @@ $(document).ready(function(){
       $('.create-pokemon-form').toggle()
     },
     displayEditForm: () => {
-        $(event.target).removeClass('btn-primary edit-button').addClass('btn-success save-button').html('SAVE');
-        $(event.target).siblings('.delete-button').show();
-        $(event.target).siblings('.cancel-button').show();
-        $(event.target).siblings('.view-pokemon-info').hide();
-        $(event.target).siblings('.edit-pokemon-form').show();
+      $(event.target).removeClass('btn-primary edit-button').addClass('btn-success save-button').html('SAVE');
+      $(event.target).siblings('.delete-button').show();
+      $(event.target).siblings('.cancel-button').show();
+      $(event.target).siblings('.view-pokemon-info').hide();
+      $(event.target).siblings('.edit-pokemon-form').show();
     },
     hideEditForm: () => {
       $('.save-button').removeClass('btn-success save-button').addClass('btn-primary edit-button').html('EDIT');
@@ -99,8 +119,18 @@ $(document).ready(function(){
     displayEditForm: () => {
       UI.displayEditForm()
     },
+    editPokemon: () => {
+      DATA.editPokemon().then(()=> {
+        CONTROLLER.displayPokemon()
+      })
+    },
     hideEditForm: () => {
       UI.hideEditForm()
+    },
+    deletePokemon: () => {
+      DATA.deletePokemon().then(() => {
+        CONTROLLER.displayPokemon()
+      })
     }
   }
 
@@ -119,4 +149,8 @@ $(document).ready(function(){
   $('.list-group').on('click','.edit-button', CONTROLLER.displayEditForm);
 
   $('.list-group').on('click', '.cancel-button', CONTROLLER.hideEditForm);
+
+  $('.list-group').on('click', '.save-button', CONTROLLER.editPokemon);
+
+  $('.list-group').on('click', '.delete-button', CONTROLLER.deletePokemon);
 });
