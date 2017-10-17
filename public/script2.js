@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
   const DATA = {
     getPokemonData: () => {
       return fetch('https://mutably.herokuapp.com/pokemon')
@@ -19,15 +20,18 @@ $(document).ready(function(){
           return pokedex
       })
     },
-    createPokemon: () => {
+    submitNewPokemon: function() {
+      let newPokemonName = $('.submitted-name').val();
+      let newPokedexNum = $('.submitted-pokedex-num').val();
+      let newEvolvesFrom = $('.submitted-evolves-from').val();
+      let newImageUrl = $('.submitted-image-url').val();
+      DATA.createPokemon(newPokemonName, newPokedexNum, newEvolvesFrom, newImageUrl)
+    },
+    createPokemon: ( newPokemonName, newPokedexNum, newEvolvesFrom, newImageUrl ) => {
       return fetch('https://mutably.herokuapp.com/pokemon', {
 	      method: 'post',
-	      body: JSON.stringify({
-		      name: document.getElementById('new-pokemon-name').value,
-		      pokedex: document.getElementById('new-pokemon-number').value,
-          evolves_from: document.getElementById('new-pokemon-evolves-from').value,
-          image: document.getElementById('new-pokemon-image').value
-	      })
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: `name=${newPokemonName}&pokedex=${newPokedexNum}&evolves_from=${newEvolvesFrom}&image=${newImageUrl}`
       });
     },
     updatePokemon: () => {
@@ -62,6 +66,22 @@ $(document).ready(function(){
     },
     toggleCreateForm: () => {
       $('.create-pokemon-form').toggle()
+    },
+    displayEditForm: () => {
+        $(event.target).removeClass('btn-primary edit-button').addClass('btn-success save-button').html('SAVE');
+        $(event.target).siblings('.delete-button').show();
+        $(event.target).siblings('.cancel-button').show();
+        $(event.target).siblings('.view-pokemon-info').hide();
+        $(event.target).siblings('.edit-pokemon-form').show();
+    },
+    hideEditForm: () => {
+      console.log(event.target)
+      $(event.target).siblings('btn-success save-button').addClass('btn-primary edit-button').html('EDIT');
+      $(event.target).siblings('.delete-button').hide();
+      $(event.target).siblings('.cancel-button').hide();
+      $(event.target).siblings('.view-pokemon-info').show();
+      $(event.target).siblings('.edit-pokemon-form').hide();
+
     }
 
   }
@@ -76,7 +96,13 @@ $(document).ready(function(){
       UI.toggleCreateForm()
     },
     createPokemon: () => {
-      DATA.createPokemon()
+      DATA.submitNewPokemon()
+    },
+    displayEditForm: () => {
+      UI.displayEditForm()
+    },
+    hideEditForm: () => {
+      UI.hideEditForm()
     }
   }
 
@@ -85,12 +111,14 @@ $(document).ready(function(){
   });
 
   $('.display-create-form-button').on('click', function() {
-    CONTROLLER.toggleCreateForm()
+    CONTROLLER.toggleCreateForm();
   })
 
   $('.create-pokemon-button').on('click', function() {
-    CONTROLLER.createPokemon()
+    CONTROLLER.createPokemon();
   })
 
+  $('.list-group').on('click','.edit-button', CONTROLLER.displayEditForm);
 
+  $('.list-group').on('click', '.cancel-button', CONTROLLER.hideEditForm);
 });
