@@ -75,13 +75,11 @@ $(document).ready(function(){
         $(event.target).siblings('.edit-pokemon-form').show();
     },
     hideEditForm: () => {
-      console.log(event.target)
-      $(event.target).siblings('btn-success save-button').addClass('btn-primary edit-button').html('EDIT');
+      $('.save-button').removeClass('btn-success save-button').addClass('btn-primary edit-button').html('EDIT');
+      $('.cancel-button').hide();
       $(event.target).siblings('.delete-button').hide();
-      $(event.target).siblings('.cancel-button').hide();
       $(event.target).siblings('.view-pokemon-info').show();
       $(event.target).siblings('.edit-pokemon-form').hide();
-
     }
 
   }
