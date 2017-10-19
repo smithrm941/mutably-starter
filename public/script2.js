@@ -56,7 +56,7 @@ $(document).ready(function(){
       let hiddenPokemonId = $(pokemonInfo.children()[0]).html()
       let individualPokemonEndpoint = (`https://mutably.herokuapp.com/pokemon/${hiddenPokemonId}`).replace(/\s/g, '');
       return fetch(individualPokemonEndpoint, {
-        method: 'delete',
+        method: 'delete'
       })
     }
   }
@@ -100,6 +100,11 @@ $(document).ready(function(){
       $(event.target).siblings('.delete-button').hide();
       $(event.target).siblings('.view-pokemon-info').show();
       $(event.target).siblings('.edit-pokemon-form').hide();
+    },
+    deleteConfirmation: () => {
+      let editPokemonForm = $(event.target).siblings('.edit-pokemon-form')
+      let pokemonToDelete = $(editPokemonForm.children()[2]).val()
+      return confirm(`Are you sure you want to delete ${pokemonToDelete}?`)
     }
 
   }
@@ -128,9 +133,11 @@ $(document).ready(function(){
       UI.hideEditForm()
     },
     deletePokemon: () => {
-      DATA.deletePokemon().then(() => {
-        CONTROLLER.displayPokemon()
-      })
+      if(UI.deleteConfirmation()){
+        DATA.deletePokemon().then(() => {
+          CONTROLLER.displayPokemon()
+        })
+      }
     }
   }
 
