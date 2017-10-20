@@ -21,11 +21,11 @@ $(document).ready(function(){
       })
     },
     submitNewPokemon: function() {
-      let newPokemonName = $('.submitted-name').val();
-      let newPokedexNum = $('.submitted-pokedex-num').val();
-      let newEvolvesFrom = $('.submitted-evolves-from').val();
-      let newImageUrl = $('.submitted-image-url').val();
-      DATA.createPokemon(newPokemonName, newPokedexNum, newEvolvesFrom, newImageUrl)
+      let newPokemonName = $('.new-pokemon-name').val();
+      let newPokedexNum = $('.new-pokemon-number').val();
+      let newEvolvesFrom = $('.new-pokemon-evolves-from').val();
+      let newImageUrl = $('.new-pokemon-image').val();
+      return DATA.createPokemon(newPokemonName, newPokedexNum, newEvolvesFrom, newImageUrl)
     },
     createPokemon: ( newPokemonName, newPokedexNum, newEvolvesFrom, newImageUrl ) => {
       return fetch('https://mutably.herokuapp.com/pokemon', {
@@ -105,8 +105,15 @@ $(document).ready(function(){
       let editPokemonForm = $(event.target).siblings('.edit-pokemon-form')
       let pokemonToDelete = $(editPokemonForm.children()[2]).val()
       return confirm(`Are you sure you want to delete ${pokemonToDelete}?`)
+    },
+    createPokemonConfirmation: () => {
+      let createdPokemonNameBox = $(event.target).siblings('.new-pokemon-name')
+      let createdPokemon = $(createdPokemonNameBox).val()
+      return confirm(`Are you sure you want to add ${createdPokemon} to the list?`)
+    },
+    clearCreateForm: () => {
+      console.log('placeholder')
     }
-
   }
 
   const CONTROLLER = {
@@ -119,7 +126,10 @@ $(document).ready(function(){
       UI.toggleCreateForm()
     },
     createPokemon: () => {
-      DATA.submitNewPokemon()
+      DATA.submitNewPokemon().then(() => {
+        CONTROLLER.toggleCreateForm()
+        CONTROLLER.displayPokemon()
+      })
     },
     displayEditForm: () => {
       UI.displayEditForm()
@@ -150,7 +160,10 @@ $(document).ready(function(){
   })
 
   $('.create-pokemon-button').on('click', function() {
-    CONTROLLER.createPokemon();
+    event.preventDefault()
+    if(UI.createPokemonConfirmation()){
+      CONTROLLER.createPokemon()
+    }
   })
 
   $('.list-group').on('click','.edit-button', CONTROLLER.displayEditForm);
