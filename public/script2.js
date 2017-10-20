@@ -112,7 +112,10 @@ $(document).ready(function(){
       return confirm(`Are you sure you want to add ${createdPokemon} to the list?`)
     },
     clearCreateForm: () => {
-      console.log('placeholder')
+      $('.new-pokemon-name').val('')
+      $('.new-pokemon-number').val('')
+      $('.new-pokemon-evolves-from').val('')
+      $('.new-pokemon-image').val('')
     }
   }
 
@@ -129,6 +132,7 @@ $(document).ready(function(){
       DATA.submitNewPokemon().then(() => {
         CONTROLLER.toggleCreateForm()
         CONTROLLER.displayPokemon()
+        UI.clearCreateForm()
       })
     },
     displayEditForm: () => {
