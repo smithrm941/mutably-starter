@@ -19,6 +19,9 @@
   "devDependencies": {
     "nodemon": "^1.11.0"
   },
+  "engines": {
+  "node": "6.9.1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/smithrm941/mutably-starter.git"
