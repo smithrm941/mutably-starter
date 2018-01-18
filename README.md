@@ -1,6 +1,16 @@
 # Mutably Starter Project
-For goal #383
+Single page CRUD application that utilizes jQuery, Fetch, and this API:
+http://mutably.herokuapp.com/
 
-## To get this project running
+to get Pokemon data from a JSON database,
+add Pokemon to the database,
+edit data from any Pokemon in the database,
+and delete any pokemon from the database.
+
+Live at https://mypokemanz.herokuapp.com/
+
+<img src='./Demo GIF.gif'/>
+
+## To get this project running locally:
 1. `npm install`
 1. `npm start` to run (uses nodemon)
