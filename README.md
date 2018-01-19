@@ -1,4 +1,4 @@
-# Mutably Starter Project
+# My Pokemanz
 Single page CRUD application that utilizes jQuery, Fetch, and this API:
 http://mutably.herokuapp.com/
 
